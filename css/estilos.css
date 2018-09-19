@@ -1,0 +1,46 @@
+/*#barra {
+    margin: 0px;
+    padding: 0px;
+}*/
+
+#portada-amigos{
+        margin-top: -20px;
+	min-height: 250px;
+	background:url('../img/amigos.jpg') no-repeat -150px -150px;
+	text-align: center;
+	color: #ffffff;
+}
+
+#portada-futbol{
+        margin-top: -20px;
+	min-height: 250px;
+	background:url('../img/soccer-field.png') no-repeat 0 -450px;
+	text-align: center;
+	color: #ffffff;
+}
+
+#portada-basquet{
+        margin-top: -20px;
+	min-height: 250px;
+	background:url('../img/basquet.jpg') no-repeat 0 -280px;
+	text-align: center;
+	color: #ffffff;
+}
+
+#portada-tenis{
+        margin-top: -20px;
+	min-height: 250px;
+	background:url('../img/tenis.jpg') no-repeat 0 -650px;
+	text-align: center;
+	color: #ffffff;
+}
+
+
+.dropdown-menu-center {
+    right: auto;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+
