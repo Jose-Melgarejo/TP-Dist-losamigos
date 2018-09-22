@@ -13,7 +13,7 @@ class ValidadorLogin {
             $this->error="Debes introducir tu mail y tu contraseña";
         } else {
             $this->socio = RepositorioSocio::obtener_socio_por_mail($conexion,$mail);
-            if (is_null($this->socio) || !password_verify($clave, $this->socio->getClave())){
+            if (is_null($this->socio) || $clave !== $this->socio->getClave()){
                 $this->error="Datos incorrectos";
             }else {
                 

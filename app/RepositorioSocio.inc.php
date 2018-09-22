@@ -1,90 +1,70 @@
 <?php
 
 class RepositorioSocio {
-    
-    public static function insertar_socio($conexion,$socio) {
+
+
+    public static function insertar_socio($conexion, $socio) {
         $socio_insertado = false;
-        
+
         if (isset($conexion)) {
-            try {
-                $sql = "INSERT INTO socio(nombre,apellido,mail,clave,fecha_registro) VALUES (:nombre,:apellido,:mail,:clave,NOW())";
-                
-                $sentencia = $conexion->prepare($sql);
-                
-                $nombre = $socio->getNombre();
-                $apellido = $socio->getApellido();
-                $mail = $socio->getMail();
-                $clave = $socio->getClave();
-                
-                $sentencia->bindParam(':nombre',$nombre,PDO::PARAM_STR);
-                $sentencia->bindParam(':apellido',$apellido,PDO::PARAM_STR);
-                $sentencia->bindParam(':mail',$mail,PDO::PARAM_STR);
-                $sentencia->bindParam(':clave',$clave,PDO::PARAM_STR);
-                
-                $socio_insertado = $sentencia->execute();
-                
-            } catch (PDOException $ex) {
-                print "ERROR" . $ex->getMessage();
-            }
+            $sql = "INSERT INTO socio(nombre,apellido,mail,clave,fecha_registro) VALUES (?,?,?,?,NOW())";
+
+            $nombre = $socio->getNombre();
+            $apellido = $socio->getApellido();
+            $mail = $socio->getMail();
+            $clave = $socio->getClave();
+
+            $stmt = odbc_prepare($conexion, $sql);
+            $socio_insertado = odbc_execute($stmt, array($nombre,$apellido,$mail,$clave));
         }
         return $socio_insertado;
     }
-    
+
     public static function mail_existe($conexion, $mail) {
         //Vamos a buscar en la bd cualquier email que tenga ese nombre.
         $mail_existe = false;
-        
+
         if (isset($conexion)) {
-            try {
-                $sql = "SELECT mail FROM socio WHERE mail = :mail";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia->bindParam(':mail',$mail,PDO::PARAM_STR);
-                
-                $sentencia->execute();
-                $resultado = $sentencia->fetchAll();
-                
-                if (count($resultado)){ //cualquier resultado !=0 es verdadero
-                    $mail_existe = true;
-                }
-            } catch (PDOException $ex) {
-                print "ERROR" . $ex->getMessage();
+            $sql = "SELECT mail FROM socio WHERE mail = ?";
+            $stmt = odbc_prepare($conexion, $sql);
+            $result = odbc_execute($stmt, array($mail));
+
+            $res_mail = odbc_result($stmt, "mail");
+
+            if (isset($res_mail) && $res_mail) {
+                $mail_existe = true;
             }
         }
-        
+
         return $mail_existe;
     }
     
-    public static function obtener_socio_por_mail($conexion,$mail) {
+    public static function obtener_socio_por_mail($conexion, $mail) {
         $socio = null;
-        
+
         if (isset($conexion)) {
-            try {
-                include_once 'Socio.inc.php';
-                
-                $sql = "SELECT * FROM socio WHERE mail = :mail";
-                $sentencia = $conexion->prepare($sql);
-                $sentencia-> bindParam(':mail',$mail,PDO::PARAM_STR);
-                $sentencia->execute();
-                $resultado = $sentencia->fetch(); //no hace falta fetchall, xq dara un unico resultado
-                
-                if (!empty($resultado)){
-//$socios[] = new Usuario($id,$nombre,$apellido,$direccion,$telefono,$mail,$clave,$fecha_registro)                    
-                    $socio = new Socio($resultado['id'],
-                            $resultado['nombre'],
-                            $resultado['apellido'],
-                            $resultado['direccion'],
-                            $resultado['telefono'],
-                            $resultado['mail'],
-                            $resultado['clave'],
-                            $resultado['fecha_registro']);
-                }
-                
-                
-            } catch (PDOException $ex) {
-                print "ERROR" . $ex->getMessage();
+            include_once 'Socio.inc.php';
+
+            $sql = "SELECT * FROM socio WHERE mail = ?";
+            $stmt = odbc_prepare($conexion, $sql);
+            $result = odbc_execute($stmt, array($mail));
+
+            $res_id = odbc_result($stmt, "id");
+
+            if (isset($res_id) && $res_id) {
+                //Usuario($id,$nombre,$apellido,$direccion,$telefono,$mail,$clave,$fecha_registro)   
+                $socio = new Socio(odbc_result($stmt, "id"),
+                        odbc_result($stmt, "nombre"),
+                        odbc_result($stmt, "apellido"),
+                        odbc_result($stmt, "direccion"),
+                        odbc_result($stmt, "telefono"),
+                        odbc_result($stmt, "mail"),
+                        odbc_result($stmt, "clave"),
+                        odbc_result($stmt, "fecha_registro"));                
             }
         }
-        
+
         return $socio;
     }
+    
 }

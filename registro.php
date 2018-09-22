@@ -20,7 +20,7 @@ if (isset($_POST['enviar'])){
                 $validador->obtener_apellido(),
                 '','',
                 $validador->obtener_mail(),
-                password_hash($validador->obtener_clave(),PASSWORD_DEFAULT),
+                $validador->obtener_clave(),
                 '');
         $socio_insertado = RepositorioSocio::insertar_socio(Conexion::getConexion(),$socio);
         
