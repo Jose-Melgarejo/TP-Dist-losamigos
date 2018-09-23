@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `losamigos`.`socio` (
   `clave` VARCHAR(255) NOT NULL,
   `fecha_registro` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
@@ -38,10 +38,10 @@ CREATE TABLE IF NOT EXISTS `losamigos`.`filial` (
   `direccion` VARCHAR(45) NOT NULL,
   `nombre` VARCHAR(45) NOT NULL,
   `dia_mantenimiento` INT NOT NULL,
-  `hora_inicio` DATETIME NOT NULL,
-  `hora_fin` DATETIME NOT NULL,
+  `hora_inicio` TIME NOT NULL,
+  `hora_fin` TIME NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `losamigos`.`cancha` (
   `deporte` VARCHAR(45) NOT NULL,
   `tipo` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `losamigos`.`filial_cancha` (
     REFERENCES `losamigos`.`cancha` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = MyISAM;
 
 
 -- -----------------------------------------------------
@@ -102,9 +102,16 @@ CREATE TABLE IF NOT EXISTS `losamigos`.`turno` (
     REFERENCES `losamigos`.`filial_cancha` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = MyISAM;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `TraerFiliales`()
+BEGIN
+    SELECT * FROM filial;
+    END$$
+DELIMITER ;

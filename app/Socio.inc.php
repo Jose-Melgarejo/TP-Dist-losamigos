@@ -53,7 +53,7 @@ class Socio {
         return $this->fecha_registro;
     }
 
-    public function setId($id) {
+    protected function setId($id) {
         $this->id = $id;
     }
 

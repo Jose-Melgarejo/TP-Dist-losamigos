@@ -13,4 +13,5 @@ define('RUTA_LOGIN',SERVIDOR."/login.php");
 define('RUTA_FUTBOL',SERVIDOR."/futbol.php");
 define('RUTA_BASQUET',SERVIDOR."/basquet.php");
 define('RUTA_TENIS',SERVIDOR."/tenis.php");
+define('RUTA_FILIAL',SERVIDOR."/filial.php");
 define('RUTA_LOGOUT',SERVIDOR."/logout.php");

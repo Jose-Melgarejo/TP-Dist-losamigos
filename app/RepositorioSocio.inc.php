@@ -2,7 +2,6 @@
 
 class RepositorioSocio {
 
-
     public static function insertar_socio($conexion, $socio) {
         $socio_insertado = false;
 
@@ -27,7 +26,7 @@ class RepositorioSocio {
         if (isset($conexion)) {
             $sql = "SELECT mail FROM socio WHERE mail = ?";
             $stmt = odbc_prepare($conexion, $sql);
-            $result = odbc_execute($stmt, array($mail));
+            odbc_execute($stmt, array($mail)) or die (exit("Error en odbc_execute"));
 
             $res_mail = odbc_result($stmt, "mail");
 
@@ -47,13 +46,12 @@ class RepositorioSocio {
 
             $sql = "SELECT * FROM socio WHERE mail = ?";
             $stmt = odbc_prepare($conexion, $sql);
-            $result = odbc_execute($stmt, array($mail));
+            odbc_execute($stmt, array($mail)) or die (exit("Error en odbc_execute"));
 
             $res_id = odbc_result($stmt, "id");
 
             if (isset($res_id) && $res_id) {
-                //Usuario($id,$nombre,$apellido,$direccion,$telefono,$mail,$clave,$fecha_registro)   
-                $socio = new Socio(odbc_result($stmt, "id"),
+                $socio = new Socio($res_id,
                         odbc_result($stmt, "nombre"),
                         odbc_result($stmt, "apellido"),
                         odbc_result($stmt, "direccion"),
