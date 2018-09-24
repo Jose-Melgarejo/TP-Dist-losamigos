@@ -17,6 +17,11 @@ if (ControlSesion::sesion_iniciada()) {
         
         if (isset($filial)){
             $titulo = 'Los Amigos | Filial '.$filial->getNombre();
+            //echo "Today is " . date("Y/m/d") . "<br>";
+            $day_of_week = date("N");
+            if ($filial->getDiaMantenimiento() == $day_of_week){
+                Redireccion::redirigir(RUTA_FILIAL_MANTENIMIENTO."?nombre=".$filial->getNombre());    
+            }
         }else{
             Redireccion::redirigir(SERVIDOR);
         }
@@ -33,7 +38,7 @@ include_once './plantillas/navbar.inc.php';
 <div class="container">
 
     <div class="page-header">
-        <h1><?php echo $filial->getNombre();?><small> Loren ipsum dolor</small></span></h1>
+        <h1><?php echo $filial->getNombre();?><small>  (<?php echo $filial->getDireccion();?>)</small></span></h1>
     </div>
 </div>
 <br>
