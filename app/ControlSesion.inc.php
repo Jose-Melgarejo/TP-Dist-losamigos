@@ -38,4 +38,5 @@ class ControlSesion {
             return false;
         }
     }
+    
 }
