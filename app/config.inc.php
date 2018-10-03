@@ -16,3 +16,5 @@ define('RUTA_TENIS',SERVIDOR."/tenis.php");
 define('RUTA_FILIAL',SERVIDOR."/filial.php");
 define('RUTA_FILIAL_MANTENIMIENTO',SERVIDOR."/filial-mantenimiento.php");
 define('RUTA_LOGOUT',SERVIDOR."/logout.php");
+
+date_default_timezone_set('America/Argentina/Buenos_Aires');

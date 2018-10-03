@@ -103,14 +103,18 @@ class RepositorioFilial {
         $turno_insertado = false;
         
         //$horario_dt = new DateTime(date('Y'),date('m'),date('d'), substr($horario,0,2),substr($horario,3,2),0);
-        $horario_dt = new DateTime();
-        $horario_dt->setDate(date('Y'), date('m'), date('d'));
-        $horario_dt->setTime(substr($horario,0,2),substr($horario,3,2),0);
+        //$horario_dt = new DateTime();
+        //$horario_dt->setDate(date('Y'), date('m'), date('d'));
+        //$horario_dt->setTime(substr($horario,0,2),substr($horario,3,2),0);
 
+        
+        
+        //$horario->format('Y-m-d H:i:s')
+        
         if (isset($conexion)) {
             $sql = "INSERT INTO turno(socio_id,filial_cancha_id,hora_inicio,estado) VALUES (?,?,?,?)";
             $stmt = odbc_prepare($conexion, $sql);
-            $turno_insertado = odbc_execute($stmt, array($id_socio,$id_filial_cancha,$horario_dt->format('Y-m-d H:i:s'),$estado)) or die(exit("Error en odbc_execute"));
+            $turno_insertado = odbc_execute($stmt, array($id_socio,$id_filial_cancha,$horario,$estado)) or die(exit("Error en odbc_execute"));
         }
         return $turno_insertado;
     }
